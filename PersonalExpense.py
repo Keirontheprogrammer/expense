@@ -1,7 +1,8 @@
+import datetime
 #Tracking expenses
 
 def option():
-    print("MAIN MENU")
+    print("="*20,"MAIN MENU", "="*20)
     
     services =["Record Expenses", "View Expenses", "Monthly Summary", "Spending Alert"]
     for i, service in enumerate(services):
@@ -29,9 +30,15 @@ def option():
                     if category in allowed_categories:
                          break
                     print(f"Invalid category!!, Must one of these :{', '.join(allowed_categories)}")
-                    
-                                    
-                print(f"MKW {amount} was spent on {category}")
+
+                try :
+                 with open("expenses.txt", "a") as file:
+                    time =datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    file.write(f"{time}, {amount}, {category}\n")
+                    print(f"\nRecorded: MKW {amount:.2f} on {category.capitalize()}")
+                except ValueError:
+                        print("Error writing to file")      
+               
 
                 break
         
@@ -42,20 +49,63 @@ def option():
              return 
         else:
              expense()
+    
+
         
 
     def view_records():
-         #READING FROM SOME FILE#
-         return
+        try:
+            with open("expenses.txt", "r") as file:
+                records=file.readlines()
+                if not records :
+                    print("No recorded data found")
+                    return
+            print("Your records are :")
+            print("-"*3,"DATE","-"*3 ," ","-"*2, "TIME","-"*2, " ", "| AMOUNT (MKW) | CATEGORY |")
+           
+            for record in records:
+                print(record.strip())
+        except FileNotFoundError:
+            print("No records found-File does not exist")
+
+        while True:
+         manage_records =["Delete records", "Exit"]
+         for i, manage in enumerate(manage_records):
+          print(f"{i+1}. {manage}")
+         try:
+          action = int(input("Choose an action :"))
+         except ValueError:
+          print("Please enter a valid number")
+
+          match action:
+           case 1:
+                confirm = input("Are you sure you want to delete all records? (y/n): ").lower()
+                if confirm == 'y':
+                  open("expenses.txt","w").close()   
+                  print("Records deleted successfully :)")
+                else:
+                    print("Failed to delete records")         
+           case 2:
+                  print("You logged out")
+                  break
+           case _:
+                  print("Invalid choice, please choose a valid option")
+                  continue
+         break
+
+    def monthly_summary():
+         print("Monthly summary coming right up")
+    def spending_alert():
+        print("Spending alerts coming right up")
     
     
     match choice:
         case 1: 
                expense()            
         case 2:
-            return
+            view_records()
         case 3:
-            return
+            monthly_summary()
         case 4:
-            return
+             spending_alert()
 option()
