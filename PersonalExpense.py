@@ -51,9 +51,34 @@ def option():
              return 
         else:
              expense()
+
     
 
-        
+    def Manage_records():
+     while True:
+        print("\nWhat do you want to do next?")
+        actions = ["Delete records", "Exit"]
+        for i, action in enumerate(actions):
+            print(f"{i+1}. {action}")
+
+       
+        action_choice = int(input("Choose an action : "))
+       
+
+        match action_choice:
+            case 1:
+                allow = input("Are you sure you want to delete all records? (y/n): ").lower()
+                if allow == 'y':
+                    open("expenses.txt", "w").close()
+                    print("Records deleted successfully :)")
+                else:
+                    print("Deletion cancelled")
+            case 2:
+                print("You logged out")
+                break
+            case _:
+                print("Invalid choice, please choose a valid option")
+
 
     def view_records():
 
@@ -72,31 +97,35 @@ def option():
                 print(record.strip())
         except FileNotFoundError:
             print("No records found-File does not exist")
+        
+        Manage_records()
+                       
 
-        while True:
-         manage_records =["Delete records", "Exit"]
-         for i, manage in enumerate(manage_records):
-          print(f"{i+1}. {manage}")
-         try:
-          action = int(input("Choose an action :"))
-         except ValueError:
-          print("Please enter a valid number")
 
-          match action:
-           case 1:
-                confirm = input("Are you sure you want to delete all records? (y/n): ").lower()
-                if confirm == 'y':
-                  open("expenses.txt","w").close()   
-                  print("Records deleted successfully :)")
-                else:
-                    print("Failed to delete records")         
-           case 2:
-                  print("You logged out")
-                  break
-           case _:
-                  print("Invalid choice, please choose a valid option")
-                  continue
-         break
+        # while True:
+        #  manage_records =["Delete records", "Exit"]
+        #  for i, manage in enumerate(manage_records):
+        #   print(f"{i+1}. {manage}")
+        #  try:
+        #   action = int(input("Choose an action :"))
+        #  except ValueError:
+        #   print("Please enter a valid number")
+
+        #   match action:
+        #    case 1:
+        #         confirm = input("Are you sure you want to delete all records? (y/n): ").lower()
+        #         if confirm == 'y':
+        #           open("expenses.txt","w").close()   
+        #           print("Records deleted successfully :)")
+        #         else:
+        #             print("Failed to delete records")         
+        #    case 2:
+        #           print("You logged out")
+        #           break
+        #    case _:
+        #           print("Invalid choice, please choose a valid option")
+        #           continue
+        #  break
 
     def monthly_summary():
          print("Monthly summary coming right up")
