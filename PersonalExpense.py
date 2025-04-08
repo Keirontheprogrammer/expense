@@ -31,6 +31,8 @@ def option():
                          break
                     print(f"Invalid category!!, Must one of these :{', '.join(allowed_categories)}")
 
+                # Record the expense in a file
+
                 try :
                  with open("expenses.txt", "a") as file:
                     time =datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -54,6 +56,9 @@ def option():
         
 
     def view_records():
+
+        # diisplaying records
+
         try:
             with open("expenses.txt", "r") as file:
                 records=file.readlines()
